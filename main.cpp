@@ -2,7 +2,7 @@
 //  main.cpp
 //  SDL_tutorial
 //
-//  Edited by Swayam Bansal on 5/26/23.
+//  Edited by Swayam Bansal on 5/31/23.
 //
 
 #include <iostream>
@@ -66,7 +66,6 @@ bool loadMedia(){
     bool success = true;
     
     // Loading the image on the gui
-    // put the path of the image in the image_path
     const char *image_path = "/Applications/PROJECTS_C++/SDL_tutorial/Images/Hello_world_image.bmp";
     HelloWorld = SDL_LoadBMP(image_path);
     
@@ -110,16 +109,33 @@ int main( int argc, char* args[] )
             
             else
                    {
-                      // Apply the image
-                       SDL_BlitSurface( HelloWorld, NULL, screenSurface, NULL );
-                       
-                       //Update the surface
-                       SDL_UpdateWindowSurface( window );
+                       //Main loop flag
+                       bool quit = false;
 
-                       //Hack to get window to stay up
-                       SDL_Event e; bool quit = false; while( quit == false ){ while( SDL_PollEvent( &e ) ){ if( e.type == SDL_QUIT ) quit = true; } }
+                       //Event handler
+                       SDL_Event e;
+
+                       //While application is running
+                       while( !quit )
+                       {
+                           //Handle events on queue
+                           while( SDL_PollEvent( &e ) != 0 )
+                           {
+                               //User requests quit
+                               if( e.type == SDL_QUIT )
+                               {
+                                   quit = true;
+                               }
+                           }
+
+                           //Apply the image
+                           SDL_BlitSurface( HelloWorld, NULL, screenSurface, NULL );
+                       
+                           //Update the surface
+                           SDL_UpdateWindowSurface( window );
                    }
             }
+        }
     
    // free up the resources and quit SDL
     close();
